@@ -107,7 +107,7 @@ app.post('/login', (req, res) => {
 app.post("/init-user", (req, res) => {
     console.log("Initializing user stats.");
 
-    const id = req.id;
+    const id = req.body.id;
     const name = req.body.name;
     const level = req.body.level;
     const exp = req.body.exp;
@@ -122,13 +122,15 @@ app.post("/init-user", (req, res) => {
     const pfp = req.body.pfp;
     const religion = req.body.religion;
     const guild = "None";
+    const city = req.body.city;
+    const region = req.body.region;
 
 
     console.log("ID: " + id);
     db.query("INSERT INTO UserStats" +
-        " (level, exp, religion, strength, stamina, dexterity, intelligence, luck, User_id, money)" +
-        " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-        [level, exp, religion, strength, stamina, dexterity, intelligence, luck, id, money]),
+        " (level, exp, strength, stamina, dexterity, intelligence, luck, User_id, money)" +
+        " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [level, exp, strength, stamina, dexterity, intelligence, luck, id, money],
         (err) => {
             if (err) {
                 console.log(err);
@@ -137,6 +139,19 @@ app.post("/init-user", (req, res) => {
                 res.send({message: 1})
             }
         }
+    )
+
+    db.query("INSERT INTO UserInfo" +
+    " (User_id, name, class, guild, religion, city, region)" +
+    " VALUES (?, ?, ?, ?, ?, ?, ?)",
+        [id, name, class_, guild, religion, city, region],
+        (err) => {
+            if (err) {
+                console.log(err);
+                res.send({err: err});
+            }
+        }
+    )
 });
 
 app.listen(PORT, () => console.log("Server started on port: " + PORT));
