@@ -94,7 +94,7 @@ app.post('/login', (req, res) => {
                 console.log("There was a server side error, check the client side for more information.");
             }
             if (result.length > 0) {
-                res.send({message: 1});
+                res.send({message: 1, result: result});
                 console.log("Successfully logged in.");
             } else {
                 res.send({message: "No user found"});
