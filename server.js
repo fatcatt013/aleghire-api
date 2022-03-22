@@ -142,9 +142,9 @@ app.post("/init-user", (req, res) => {
     )
 
     db.query("INSERT INTO UserInfo" +
-    " (User_id, name, class, guild, religion, city, region)" +
-    " VALUES (?, ?, ?, ?, ?, ?, ?)",
-        [id, name, class_, guild, religion, city, region],
+    " (User_id, name, class, guild, religion, city, region, pfp)" +
+    " VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        [id, name, class_, guild, religion, city, region, pfp],
         (err) => {
             if (err) {
                 console.log(err);
@@ -153,5 +153,24 @@ app.post("/init-user", (req, res) => {
         }
     )
 });
+
+app.post("/get-profile-info", (req, res) => {
+    const id = req.body.id;
+
+    console.log("Attempting to get player info of player: " + id);
+    db.query("SELECT * FROM UserInfo WHERE User_id = ?", [id], (err, result) => {
+        if (err) {
+            console.log("There was an error");
+        }
+        if (result < 1){
+            console.log("Cannot find a User with ID of " + id);
+        }
+        else {
+            console.log("Successfuly sent response with information about User with ID " + id);
+            res.send({result: result});
+        }
+    });
+});
+
 
 app.listen(PORT, () => console.log("Server started on port: " + PORT));
