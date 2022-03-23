@@ -154,10 +154,10 @@ app.post("/init-user", (req, res) => {
     )
 });
 
-app.post("/get-profile-info", (req, res) => {
+app.post("/get-user-info", (req, res) => {
     const id = req.body.id;
 
-    console.log("Attempting to get player info of player: " + id);
+    console.log("Attempting to get user info of user: " + id);
     db.query("SELECT * FROM UserInfo WHERE User_id = ?", [id], (err, result) => {
         if (err) {
             console.log("There was an error");
@@ -166,7 +166,25 @@ app.post("/get-profile-info", (req, res) => {
             console.log("Cannot find a User with ID of " + id);
         }
         else {
-            console.log("Successfuly sent response with information about User with ID " + id);
+            console.log("Successfuly sent response with UserInfo with ID " + id);
+            res.send({result: result});
+        }
+    });
+});
+
+app.post("/get-user-stats", (req, res) => {
+    const id = req.body.id;
+
+    console.log("Attempting to get user stats of user: " + id);
+    db.query("SELECT * FROM UserStats WHERE User_id = ?", [id], (err, result) => {
+        if (err) {
+            console.log("There was an error");
+        }
+        if (result < 1){
+            console.log("Cannot find a User with ID of " + id);
+        }
+        else {
+            console.log("Successfuly sent response with UserStats with ID " + id);
             res.send({result: result});
         }
     });
