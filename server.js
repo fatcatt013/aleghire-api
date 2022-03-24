@@ -121,6 +121,7 @@ app.post("/init-user", (req, res) => {
     const class_ = req.body.class;
     const pfp = req.body.pfp;
     const religion = req.body.religion;
+    const religionIndex = req.body.religionIndex;
     const guild = "None";
     const city = req.body.city;
     const region = req.body.region;
@@ -128,9 +129,9 @@ app.post("/init-user", (req, res) => {
 
     console.log("ID: " + id);
     db.query("INSERT INTO UserStats" +
-        " (level, exp, strength, stamina, dexterity, intelligence, luck, User_id, money)" +
-        " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-        [level, exp, strength, stamina, dexterity, intelligence, luck, id, money],
+        " (level, exp, strength, stamina, dexterity, intelligence, luck, User_id, money, religionIndex)" +
+        " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [level, exp, strength, stamina, dexterity, intelligence, luck, id, money, religionIndex],
         (err) => {
             if (err) {
                 console.log(err);
